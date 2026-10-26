@@ -3,9 +3,13 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
 
+# Obtenemos la URL de Render
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-# Creamos el motor indicándole explícitamente que use psycopg y maneje la conexión
+# TRUCO CLAVE: Forzamos el uso de psycopg2 para que ignore el conector moderno y conecte de forma estable
+if DATABASE_URL and DATABASE_URL.startswith("postgresql://"):
+    DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+psycopg2://", 1)
+
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
