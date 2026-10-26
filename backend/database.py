@@ -3,9 +3,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
 
-# ⚠️ REEMPLAZA [TU-PASSWORD] con la contraseña de tu base de datos en Supabase
-# Puedes obtener la URI completa en Supabase: Project Settings > Database > Connection string > URI
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:sldozelada2021@db.denucazhwpubkylktwkp.supabase.co:5432/postgres"
+# Lee automáticamente la variable de entorno DATABASE_URL que configuramos en Render y en tu .env local
+SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
