@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:8000', // <-- Cambiado de 127.0.0.1 a localhost
+  baseURL: import.meta.env.VITE_API_URL || 'https://transporte-backend-2.onrender.com',
 });
 
 api.interceptors.request.use(
