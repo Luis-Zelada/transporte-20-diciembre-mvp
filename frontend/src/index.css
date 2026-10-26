@@ -1,1 +1,82 @@
 @import "tailwindcss";
+
+/* Paleta institucional: 50% rojo (brand), 40% negro (ink), 10% blanco (acentos) */
+@theme {
+  --color-brand-light: #e4344d;
+  --color-brand: #c8102e;
+  --color-brand-dark: #9b0c23;
+  --color-ink: #0b0b0b;
+  --color-ink-soft: #171717;
+  --color-ink-muted: #262626;
+}
+
+@layer base {
+  body {
+    @apply bg-brand text-white antialiased;
+  }
+}
+
+@layer components {
+  .panel {
+    @apply bg-ink text-white rounded-xl shadow-xl shadow-black/30 border border-white/10 p-6;
+  }
+  .subpanel {
+    @apply bg-ink-soft rounded-lg border border-white/10 p-4;
+  }
+  .row-card {
+    @apply bg-ink-soft border border-white/10 rounded-lg;
+  }
+
+  .form-label {
+    @apply block text-sm font-medium text-white/80 mb-1;
+  }
+  .form-input {
+    @apply w-full h-11 rounded-lg px-3 py-2 bg-white text-ink border-2 border-transparent placeholder:text-neutral-400 outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/40;
+  }
+  .form-input-sm {
+    @apply h-8 px-2 py-1 text-sm;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 font-semibold rounded-lg px-5 py-2 transition-colors cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-sm {
+    @apply px-3 py-1.5 text-sm;
+  }
+  .btn-xs {
+    @apply px-3 py-1.5 text-xs;
+  }
+  .btn-primary {
+    @apply bg-brand text-white hover:bg-brand-dark;
+  }
+  .btn-light {
+    @apply bg-white text-ink hover:bg-neutral-200;
+  }
+  .btn-outline {
+    @apply border border-white/40 text-white hover:bg-white/10;
+  }
+  .btn-danger {
+    @apply border border-brand-light text-brand-light hover:bg-brand hover:text-white hover:border-brand;
+  }
+
+  .tab {
+    @apply px-4 py-2 text-sm font-semibold rounded-lg transition-colors cursor-pointer text-white/70 hover:text-white hover:bg-white/10;
+  }
+  .tab-active {
+    @apply bg-brand text-white hover:bg-brand;
+  }
+
+  .badge {
+    @apply inline-block text-xs font-semibold px-2.5 py-1 rounded-full;
+  }
+  .badge-brand {
+    @apply bg-brand text-white;
+  }
+  .badge-light {
+    @apply bg-white text-ink;
+  }
+
+  .alert-error {
+    @apply bg-brand/15 border border-brand-light text-white px-4 py-3 rounded-lg text-sm;
+  }
+}

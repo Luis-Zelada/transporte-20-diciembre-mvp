@@ -113,42 +113,42 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="min-h-screen bg-brand p-8">
       <div className="max-w-4xl mx-auto space-y-6">
         
         {/* Cabecera */}
-        <div className="bg-white rounded-xl shadow-md p-6 flex justify-between items-center">
+        <div className="bg-ink rounded-xl shadow-xl shadow-black/30 border-b-4 border-white p-6 flex justify-between items-center gap-4 flex-wrap">
           <div>
-            <h1 className="text-3xl font-bold text-gray-800 mb-1">
+            <h1 className="text-3xl font-bold text-white mb-1">
               Asociación de Transporte "20 de Diciembre"
             </h1>
-            <p className="text-gray-600 text-sm">
-              Conectado como: <span className="font-semibold text-blue-600 uppercase">{rol}</span>
+            <p className="text-white/70 text-sm">
+              Conectado como: <span className="font-semibold text-brand-light uppercase">{rol}</span>
             </p>
           </div>
           <button
             onClick={handleLogout}
-            className="bg-red-50 hover:bg-red-100 text-red-600 font-medium px-4 py-2 rounded-lg border border-red-200 transition-colors text-sm cursor-pointer"
+            className="btn btn-sm btn-light"
           >
             Cerrar Sesión
           </button>
         </div>
 
         {/* Barra de Pestañas Filtrada por Roles */}
-        <div className="flex gap-2 border-b border-gray-300 pb-2 flex-wrap">
+        <div className="flex gap-2 flex-wrap bg-ink rounded-xl p-2 shadow-xl shadow-black/30">
           
           {/* PRESIDENTE: Gestiona líneas, internos y motorizados */}
           {(rol === 'Presidente' || rol === 'Administrador') && (
             <>
               <button
                 onClick={() => setActiveTab('lineas')}
-                className={`px-4 py-2 font-semibold rounded-lg text-sm transition-colors cursor-pointer ${activeTab === 'lineas' ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-200'}`}
+                className={`tab ${activeTab === 'lineas' ? 'tab-active' : ''}`}
               >
                 Gestión de Líneas
               </button>
               <button
                 onClick={() => setActiveTab('internos')}
-                className={`px-4 py-2 font-semibold rounded-lg text-sm transition-colors cursor-pointer ${activeTab === 'internos' ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-200'}`}
+                className={`tab ${activeTab === 'internos' ? 'tab-active' : ''}`}
               >
                 Gestión de Internos y Motorizados
               </button>
@@ -159,7 +159,7 @@ function App() {
           {(rol === 'Secretario de Hacienda' || rol === 'Administrador') && (
             <button
               onClick={() => setActiveTab('hacienda')}
-              className={`px-4 py-2 font-semibold rounded-lg text-sm transition-colors cursor-pointer ${activeTab === 'hacienda' ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-200'}`}
+              className={`tab ${activeTab === 'hacienda' ? 'tab-active' : ''}`}
             >
               Secretaría de Hacienda
             </button>
@@ -169,7 +169,7 @@ function App() {
           {rol === 'Administrador' && (
             <button
               onClick={() => setActiveTab('usuarios')}
-              className={`px-4 py-2 font-semibold rounded-lg text-sm transition-colors cursor-pointer ${activeTab === 'usuarios' ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-200'}`}
+              className={`tab ${activeTab === 'usuarios' ? 'tab-active' : ''}`}
             >
               Gestión de Usuarios
             </button>
@@ -179,36 +179,36 @@ function App() {
         {/* Contenido dinámico según pestaña activa */}
         {activeTab === 'lineas' && (rol === 'Presidente' || rol === 'Administrador') && (
           <div className="space-y-6">
-            <div className="bg-white rounded-xl shadow-md p-6">
+            <div className="panel">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold text-gray-700">
+                <h2 className="text-xl font-semibold text-white">
                   {editingId ? `Editando Línea N° ${numeroLinea}` : 'Registrar Nueva Línea'}
                 </h2>
                 {editingId && (
-                  <button onClick={resetForm} className="text-sm text-gray-500 underline">Cancelar</button>
+                  <button onClick={resetForm} className="text-sm text-white/70 hover:text-white underline cursor-pointer">Cancelar</button>
                 )}
               </div>
 
-              {formError && <p className="text-red-500 mb-3 text-sm">{formError}</p>}
+              {formError && <p className="alert-error mb-3">{formError}</p>}
               
               <form onSubmit={handleSubmit} className="flex gap-4 items-end">
                 <div className="flex-1">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Número de Línea</label>
+                  <label className="form-label">Número de Línea</label>
                   <input
                     type="number"
                     value={numeroLinea}
                     onChange={(e) => setNumeroLinea(e.target.value)}
                     placeholder="Ej. 20"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white"
+                    className="form-input"
                   />
                 </div>
 
                 <div className="flex-1">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Estado</label>
+                  <label className="form-label">Estado</label>
                   <select
                     value={estado}
                     onChange={(e) => setEstado(e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white"
+                    className="form-input"
                   >
                     <option value="Disponible">Disponible</option>
                     <option value="En Ruta">En Ruta</option>
@@ -218,27 +218,27 @@ function App() {
 
                 <button
                   type="submit"
-                  className={`${editingId ? 'bg-amber-600 hover:bg-amber-700' : 'bg-blue-600 hover:bg-blue-700'} text-white font-medium px-5 py-2 rounded-lg transition-colors cursor-pointer`}
+                  className={`btn ${editingId ? 'btn-light' : 'btn-primary'}`}
                 >
                   {editingId ? 'Actualizar' : 'Guardar'}
                 </button>
               </form>
             </div>
 
-            <div className="bg-white rounded-xl shadow-md p-6">
-              <h2 className="text-xl font-semibold text-gray-700 mb-3">Líneas Registradas:</h2>
-              {loading && <p className="text-blue-500">Cargando...</p>}
-              {error && <p className="text-red-500">{error}</p>}
+            <div className="panel">
+              <h2 className="text-xl font-semibold text-white mb-3">Líneas Registradas:</h2>
+              {loading && <p className="text-white/70">Cargando...</p>}
+              {error && <p className="alert-error">{error}</p>}
               
               {!loading && !error && lineas.map((linea) => (
-                <div key={linea.id_linea} className="py-3 flex justify-between items-center border-b border-gray-100 last:border-none">
+                <div key={linea.id_linea} className="py-3 flex justify-between items-center border-b border-white/10 last:border-none">
                   <div className="flex items-center gap-4">
-                    <span className="font-medium text-gray-800 text-lg">Línea N° {linea.numero_linea}</span>
-                    <span className="text-sm bg-green-100 text-green-800 px-3 py-1 rounded-full font-medium">{linea.estado}</span>
+                    <span className="font-medium text-white text-lg">Línea N° {linea.numero_linea}</span>
+                    <span className="badge badge-light">{linea.estado}</span>
                   </div>
                   <div className="flex gap-2">
-                    <button onClick={() => handleEditClick(linea)} className="bg-amber-50 hover:bg-amber-100 text-amber-700 px-3 py-1.5 rounded-lg text-sm font-medium cursor-pointer">Editar</button>
-                    <button onClick={() => handleDelete(linea.id_linea)} className="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-lg text-sm font-medium cursor-pointer">Eliminar</button>
+                    <button onClick={() => handleEditClick(linea)} className="btn btn-sm btn-outline">Editar</button>
+                    <button onClick={() => handleDelete(linea.id_linea)} className="btn btn-sm btn-danger">Eliminar</button>
                   </div>
                 </div>
               ))}

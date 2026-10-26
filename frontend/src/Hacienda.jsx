@@ -62,39 +62,39 @@ function Hacienda() {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-6 space-y-6">
-      <h2 className="text-2xl font-bold text-gray-800">Secretaría de Hacienda - Control de Caja</h2>
+    <div className="panel space-y-6">
+      <h2 className="text-2xl font-bold text-white">Secretaría de Hacienda - Control de Caja</h2>
 
       {/* Tarjetas de Resumen Financiero Calculadas en Vivo */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-green-50 border border-green-200 p-4 rounded-xl">
-          <p className="text-sm font-medium text-green-600">Total Ingresos</p>
-          <p className="text-2xl font-bold text-green-800">${totalIngresos.toFixed(2)}</p>
+        <div className="bg-white p-4 rounded-xl">
+          <p className="text-sm font-medium text-ink/60">Total Ingresos</p>
+          <p className="text-2xl font-bold text-ink">${totalIngresos.toFixed(2)}</p>
         </div>
-        <div className="bg-red-50 border border-red-200 p-4 rounded-xl">
-          <p className="text-sm font-medium text-red-600">Total Egresos</p>
-          <p className="text-2xl font-bold text-red-800">${totalEgresos.toFixed(2)}</p>
+        <div className="bg-brand p-4 rounded-xl">
+          <p className="text-sm font-medium text-white/80">Total Egresos</p>
+          <p className="text-2xl font-bold text-white">${totalEgresos.toFixed(2)}</p>
         </div>
-        <div className="bg-blue-50 border border-blue-200 p-4 rounded-xl">
-          <p className="text-sm font-medium text-blue-600">Saldo Actual en Caja</p>
-          <p className="text-2xl font-bold text-blue-800">${saldoActual.toFixed(2)}</p>
+        <div className="bg-ink-soft border border-white/10 p-4 rounded-xl">
+          <p className="text-sm font-medium text-white/70">Saldo Actual en Caja</p>
+          <p className="text-2xl font-bold text-white">${saldoActual.toFixed(2)}</p>
         </div>
       </div>
 
       {/* Formulario de Registro */}
-      <form onSubmit={handleSubmit} className="bg-gray-50 p-4 rounded-lg border border-gray-200 space-y-4">
-        <h3 className="text-lg font-semibold text-gray-700">Registrar Transacción</h3>
+      <form onSubmit={handleSubmit} className="subpanel space-y-4">
+        <h3 className="text-lg font-semibold text-white">Registrar Transacción</h3>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Tipo de Movimiento</label>
-            <select value={tipoMovimiento} onChange={(e) => setTipoMovimiento(e.target.value)} className="w-full border rounded-lg px-3 py-2 bg-white">
+            <label className="form-label">Tipo de Movimiento</label>
+            <select value={tipoMovimiento} onChange={(e) => setTipoMovimiento(e.target.value)} className="form-input">
               <option value="Ingreso">Ingreso</option>
               <option value="Egreso">Egreso</option>
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Concepto</label>
-            <select value={concepto} onChange={(e) => setConcepto(e.target.value)} className="w-full border rounded-lg px-3 py-2 bg-white">
+            <label className="form-label">Concepto</label>
+            <select value={concepto} onChange={(e) => setConcepto(e.target.value)} className="form-input">
               <option value="Mensualidad">Mensualidad</option>
               <option value="Multa">Multa</option>
               <option value="Cuota">Cuota</option>
@@ -102,12 +102,12 @@ function Hacienda() {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Monto ($)</label>
-            <input type="number" step="0.01" value={monto} onChange={(e) => setMonto(e.target.value)} required className="w-full border rounded-lg px-3 py-2 bg-white" placeholder="0.00" />
+            <label className="form-label">Monto ($)</label>
+            <input type="number" step="0.01" value={monto} onChange={(e) => setMonto(e.target.value)} required className="form-input" placeholder="0.00" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Asociado (Opcional)</label>
-            <select value={idInterno} onChange={(e) => setIdInterno(e.target.value)} className="w-full border rounded-lg px-3 py-2 bg-white">
+            <label className="form-label">Asociado (Opcional)</label>
+            <select value={idInterno} onChange={(e) => setIdInterno(e.target.value)} className="form-input">
               <option value="">Ninguno / General</option>
               {internos.map(i => (
                 <option key={i.id_interno} value={i.id_interno}>{i.nombre} {i.apellido}</option>
@@ -115,24 +115,24 @@ function Hacienda() {
             </select>
           </div>
         </div>
-        <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-lg transition-colors cursor-pointer">
+        <button type="submit" className="btn btn-primary">
           Registrar Transacción
         </button>
       </form>
 
       {/* Historial de Movimientos */}
       <div>
-        <h3 className="text-xl font-semibold text-gray-700 mb-3">Historial de Caja</h3>
+        <h3 className="text-xl font-semibold text-white mb-3">Historial de Caja</h3>
         <div className="space-y-2">
           {pagos.map((p) => (
-            <div key={p.id_pago} className="p-3 border rounded-lg flex justify-between items-center bg-white">
+            <div key={p.id_pago} className="row-card p-3 flex justify-between items-center">
               <div>
-                <span className={`font-bold px-2 py-1 rounded text-xs mr-2 ${p.tipo_movimiento === 'Ingreso' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                <span className={`badge mr-2 ${p.tipo_movimiento === 'Ingreso' ? 'badge-light' : 'badge-brand'}`}>
                   {p.tipo_movimiento}
                 </span>
-                <span className="font-semibold text-gray-800">{p.concepto}</span>
+                <span className="font-semibold text-white">{p.concepto}</span>
               </div>
-              <span className={`font-bold text-lg ${p.tipo_movimiento === 'Ingreso' ? 'text-green-600' : 'text-red-600'}`}>
+              <span className={`font-bold text-lg ${p.tipo_movimiento === 'Ingreso' ? 'text-white' : 'text-brand-light'}`}>
                 {p.tipo_movimiento === 'Ingreso' ? '+' : '-'}${p.monto}
               </span>
             </div>

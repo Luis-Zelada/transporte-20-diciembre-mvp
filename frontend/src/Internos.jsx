@@ -114,39 +114,39 @@ api.post(`/api/v1/motorizados?id_interno=${id_interno}`, payload)
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-6 space-y-6">
-      <h2 className="text-2xl font-bold text-gray-800">Gestión de Socios e Inquilinos (Internos)</h2>
+    <div className="panel space-y-6">
+      <h2 className="text-2xl font-bold text-white">Gestión de Socios e Inquilinos (Internos)</h2>
 
       {/* Formulario Registro de Interno */}
-      <form onSubmit={handleCrearInterno} className="bg-gray-50 p-4 rounded-lg border border-gray-200 space-y-4">
-        <h3 className="text-lg font-semibold text-gray-700">Registrar Nuevo Interno</h3>
+      <form onSubmit={handleCrearInterno} className="subpanel space-y-4">
+        <h3 className="text-lg font-semibold text-white">Registrar Nuevo Interno</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
-            <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} required className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white" />
+            <label className="form-label">Nombre</label>
+            <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} required className="form-input" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Apellido</label>
-            <input type="text" value={apellido} onChange={(e) => setApellido(e.target.value)} required className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white" />
+            <label className="form-label">Apellido</label>
+            <input type="text" value={apellido} onChange={(e) => setApellido(e.target.value)} required className="form-input" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Cédula de Identidad (CI)</label>
-            <input type="text" value={ci} onChange={(e) => setCi(e.target.value)} required className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white" />
+            <label className="form-label">Cédula de Identidad (CI)</label>
+            <input type="text" value={ci} onChange={(e) => setCi(e.target.value)} required className="form-input" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
-            <input type="text" value={telefono} onChange={(e) => setTelefono(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white" />
+            <label className="form-label">Teléfono</label>
+            <input type="text" value={telefono} onChange={(e) => setTelefono(e.target.value)} className="form-input" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Tipo de Interno</label>
-            <select value={tipoInterno} onChange={(e) => setTipoInterno(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white">
+            <label className="form-label">Tipo de Interno</label>
+            <select value={tipoInterno} onChange={(e) => setTipoInterno(e.target.value)} className="form-input">
               <option value="Socio">Socio</option>
               <option value="Inquilino">Inquilino</option>
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Línea Asignada</label>
-            <select value={idLinea} onChange={(e) => setIdLinea(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 bg-white">
+            <label className="form-label">Línea Asignada</label>
+            <select value={idLinea} onChange={(e) => setIdLinea(e.target.value)} className="form-input">
               <option value="">Seleccione una línea</option>
               {lineas.map((l) => (
                 <option key={l.id_linea} value={l.id_linea}>Línea N° {l.numero_linea}</option>
@@ -154,61 +154,61 @@ api.post(`/api/v1/motorizados?id_interno=${id_interno}`, payload)
             </select>
           </div>
         </div>
-        <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-lg transition-colors">
+        <button type="submit" className="btn btn-primary">
           Guardar Interno
         </button>
       </form>
 
       {/* Listado de Internos */}
       <div>
-        <h3 className="text-xl font-semibold text-gray-700 mb-4">Lista de Internos Registrados</h3>
-        {loading && <p className="text-blue-500">Cargando internos...</p>}
-        {error && <p className="text-red-500">{error}</p>}
+        <h3 className="text-xl font-semibold text-white mb-4">Lista de Internos Registrados</h3>
+        {loading && <p className="text-white/70">Cargando internos...</p>}
+        {error && <p className="alert-error">{error}</p>}
         
         {!loading && internos.length === 0 && (
-          <p className="text-gray-500">No hay internos registrados todavía.</p>
+          <p className="text-white/60">No hay internos registrados todavía.</p>
         )}
 
         <div className="space-y-4">
           {internos.map((interno) => {
             const lineaAsignada = lineas.find(l => l.id_linea === interno.id_linea);
             return (
-              <div key={interno.id_interno} className="border border-gray-200 rounded-xl p-4 bg-white shadow-sm space-y-3">
+              <div key={interno.id_interno} className="row-card rounded-xl p-4 space-y-3">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h4 className="text-lg font-bold text-gray-800">
+                    <h4 className="text-lg font-bold text-white">
                       {interno.nombre} {interno.apellido} 
-                      <span className="text-xs font-medium bg-indigo-100 text-indigo-800 px-2.5 py-0.5 rounded-full ml-2">
+                      <span className="badge badge-brand ml-2">
                         {interno.tipo_interno}
                       </span>
                     </h4>
-                    <p className="text-sm text-gray-600">CI: {interno.ci} | Teléfono: {interno.telefono || 'N/D'}</p>
-                    <p className="text-sm font-medium text-gray-700 mt-1">
+                    <p className="text-sm text-white/70">CI: {interno.ci} | Teléfono: {interno.telefono || 'N/D'}</p>
+                    <p className="text-sm font-medium text-white/80 mt-1">
                       Línea: {lineaAsignada ? `N° ${lineaAsignada.numero_linea}` : 'Sin línea asignada'}
                     </p>
                   </div>
                   <button
                     onClick={() => handleEliminarInterno(interno.id_interno)}
-                    className="bg-red-50 hover:bg-red-100 text-red-600 text-sm px-3 py-1.5 rounded-lg font-medium transition-colors"
+                    className="btn btn-sm btn-danger"
                   >
                     Eliminar
                   </button>
                 </div>
 
                 {/* Sección de Vehículos / Motorizados */}
-                <div className="border-t border-gray-100 pt-3 mt-3">
-                  <h5 className="text-sm font-semibold text-gray-700 mb-2">Vehículo / Motorizado Asignado:</h5>
+                <div className="border-t border-white/10 pt-3 mt-3">
+                  <h5 className="text-sm font-semibold text-white/80 mb-2">Vehículo / Motorizado Asignado:</h5>
                   {interno.motorizados && interno.motorizados.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
                       {interno.motorizados.map((m) => (
-                        <div key={m.id_motorizado} className="bg-gray-50 p-3 rounded-lg border border-gray-200 flex justify-between items-center text-sm">
+                        <div key={m.id_motorizado} className="bg-ink-muted p-3 rounded-lg border border-white/10 flex justify-between items-center text-sm">
                           <div>
-                            <span className="font-bold text-gray-800">{m.tipo_motorizado}</span> - Placa: <span className="font-semibold text-blue-600">{m.placa}</span>
-                            <p className="text-xs text-gray-500">{m.marca} {m.modelo} ({m.color})</p>
+                            <span className="font-bold text-white">{m.tipo_motorizado}</span> - Placa: <span className="font-semibold text-brand-light">{m.placa}</span>
+                            <p className="text-xs text-white/60">{m.marca} {m.modelo} ({m.color})</p>
                           </div>
                           <button
                             onClick={() => handleEliminarMotorizado(m.id_motorizado)}
-                            className="text-red-500 hover:text-red-700 text-xs font-medium px-2 py-1"
+                            className="text-brand-light hover:text-white text-xs font-medium px-2 py-1 cursor-pointer"
                           >
                             Quitar
                           </button>
@@ -216,33 +216,33 @@ api.post(`/api/v1/motorizados?id_interno=${id_interno}`, payload)
                       ))}
                     </div>
                   ) : (
-                    <p className="text-xs text-gray-500 mb-3">No tiene un motorizado registrado aún.</p>
+                    <p className="text-xs text-white/60 mb-3">No tiene un motorizado registrado aún.</p>
                   )}
 
                   {/* Formulario rápido para agregar motorizado a este interno */}
                   {selectedInternoId === interno.id_interno ? (
-                    <form onSubmit={(e) => handleCrearMotorizado(e, interno.id_interno)} className="bg-blue-50/50 p-3 rounded-lg border border-blue-200 space-y-3 mt-2">
-                      <h6 className="text-sm font-semibold text-blue-800">Registrar Motorizado</h6>
+                    <form onSubmit={(e) => handleCrearMotorizado(e, interno.id_interno)} className="bg-ink-muted p-3 rounded-lg border border-brand space-y-3 mt-2">
+                      <h6 className="text-sm font-semibold text-white">Registrar Motorizado</h6>
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                        <select value={tipoMotorizado} onChange={(e) => setTipoMotorizado(e.target.value)} className="border rounded px-2 py-1 text-sm bg-white">
+                        <select value={tipoMotorizado} onChange={(e) => setTipoMotorizado(e.target.value)} className="form-input form-input-sm">
                           <option value="Motocicleta">Motocicleta</option>
                           <option value="Torito">Torito</option>
                           <option value="Motocar">Motocar</option>
                         </select>
-                        <input type="text" placeholder="Placa (ej. 4501-XYZ)" value={placa} onChange={(e) => setPlaca(e.target.value)} required className="border rounded px-2 py-1 text-sm bg-white" />
-                        <input type="text" placeholder="Marca" value={marca} onChange={(e) => setMarca(e.target.value)} required className="border rounded px-2 py-1 text-sm bg-white" />
-                        <input type="text" placeholder="Modelo" value={modelo} onChange={(e) => setModelo(e.target.value)} required className="border rounded px-2 py-1 text-sm bg-white" />
-                        <input type="text" placeholder="Color" value={color} onChange={(e) => setColor(e.target.value)} required className="border rounded px-2 py-1 text-sm bg-white" />
+                        <input type="text" placeholder="Placa (ej. 4501-XYZ)" value={placa} onChange={(e) => setPlaca(e.target.value)} required className="form-input form-input-sm" />
+                        <input type="text" placeholder="Marca" value={marca} onChange={(e) => setMarca(e.target.value)} required className="form-input form-input-sm" />
+                        <input type="text" placeholder="Modelo" value={modelo} onChange={(e) => setModelo(e.target.value)} required className="form-input form-input-sm" />
+                        <input type="text" placeholder="Color" value={color} onChange={(e) => setColor(e.target.value)} required className="form-input form-input-sm" />
                       </div>
                       <div className="flex gap-2">
-                        <button type="submit" className="bg-green-600 hover:bg-green-700 text-white text-xs px-3 py-1.5 rounded font-medium">Guardar Vehículo</button>
-                        <button type="button" onClick={() => setSelectedInternoId(null)} className="bg-gray-300 hover:bg-gray-400 text-gray-700 text-xs px-3 py-1.5 rounded font-medium">Cancelar</button>
+                        <button type="submit" className="btn btn-xs btn-primary">Guardar Vehículo</button>
+                        <button type="button" onClick={() => setSelectedInternoId(null)} className="btn btn-xs btn-outline">Cancelar</button>
                       </div>
                     </form>
                   ) : (
                     <button
                       onClick={() => setSelectedInternoId(interno.id_interno)}
-                      className="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-medium px-3 py-1.5 rounded-lg transition-colors"
+                      className="btn btn-xs btn-light"
                     >
                       + Añadir Motorizado
                     </button>
