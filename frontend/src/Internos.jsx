@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import api from './api';
+
+const Visor3D = lazy(() => import('./Visor3D'));
 
 function Internos() {
   const [internos, setInternos] = useState([]);
@@ -22,6 +24,9 @@ function Internos() {
   const [marca, setMarca] = useState('');
   const [color, setColor] = useState('');
   const [modelo, setModelo] = useState('');
+
+  // Motorizado que se está inspeccionando en el visor 3D
+  const [motorizadoEnVisor, setMotorizadoEnVisor] = useState(null);
 
   useEffect(() => {
     fetchData();
@@ -206,12 +211,20 @@ api.post(`/api/v1/motorizados?id_interno=${id_interno}`, payload)
                             <span className="font-bold text-white">{m.tipo_motorizado}</span> - Placa: <span className="font-semibold text-brand-light">{m.placa}</span>
                             <p className="text-xs text-white/60">{m.marca} {m.modelo} ({m.color})</p>
                           </div>
-                          <button
-                            onClick={() => handleEliminarMotorizado(m.id_motorizado)}
-                            className="text-brand-light hover:text-white text-xs font-medium px-2 py-1 cursor-pointer"
-                          >
-                            Quitar
-                          </button>
+                          <div className="flex items-center gap-1 shrink-0">
+                            <button
+                              onClick={() => setMotorizadoEnVisor(m)}
+                              className="btn btn-xs btn-light"
+                            >
+                              Ver 3D
+                            </button>
+                            <button
+                              onClick={() => handleEliminarMotorizado(m.id_motorizado)}
+                              className="text-brand-light hover:text-white text-xs font-medium px-2 py-1 cursor-pointer"
+                            >
+                              Quitar
+                            </button>
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -253,6 +266,27 @@ api.post(`/api/v1/motorizados?id_interno=${id_interno}`, payload)
           })}
         </div>
       </div>
+
+      {motorizadoEnVisor && (
+        <div
+          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-3 sm:p-6"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Visor 3D del motorizado"
+          onClick={(e) => e.target === e.currentTarget && setMotorizadoEnVisor(null)}
+        >
+          <div className="w-full max-w-3xl max-h-full overflow-y-auto">
+            <Suspense fallback={<div className="panel text-white/70">Cargando visor 3D...</div>}>
+              <Visor3D
+                tipo={motorizadoEnVisor.tipo_motorizado}
+                color={motorizadoEnVisor.color}
+                titulo={`${motorizadoEnVisor.tipo_motorizado} - Placa ${motorizadoEnVisor.placa}`}
+                onClose={() => setMotorizadoEnVisor(null)}
+              />
+            </Suspense>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
